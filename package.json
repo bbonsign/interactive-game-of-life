@@ -1,6 +1,7 @@
 {
   "name": "igol",
   "version": "0.1.0",
+  "author": "Brian Bonsignore <bonsignore.brian@gmail.com> (https://github.com/bbonsign)",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
