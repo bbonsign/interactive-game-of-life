@@ -1,5 +1,5 @@
 <template>
-  <div class="universe" @click="draw">
+  <div class="universe" @click="clickHandle">
     <canvas id="canvas"></canvas>
   </div>
 </template>
@@ -24,7 +24,17 @@ export default {
   },
 
   methods: {
-    draw() {
+    pixToCell(pixelX, pixelY) {
+      let row = Math.floor(pixelX / (CELL_SIZE + 1));
+      let column = Math.floor(pixelY / (CELL_SIZE + 1));
+      return { row, column };
+    },
+
+    clickHandle(event) {
+      let pixelX = event.offsetX;
+      let pixelY = event.offsetY;
+      let coors = this.pixToCell(pixelX, pixelY);
+      this.life.toggleCell(coors, true);
       this.drawGrid();
       this.drawCells();
       //      this.ctx.fillStyle = "black";

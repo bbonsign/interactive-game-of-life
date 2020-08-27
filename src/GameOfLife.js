@@ -9,7 +9,7 @@ export class GameOfLife {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.cells = Array(this.size).fill(true);
+    this.cells = Array(this.size).fill(false);
   }
 
   get size() {
@@ -33,18 +33,23 @@ export class GameOfLife {
     this.cells[idx] = bool;
   }
 
+  toggleCell(coors) {
+    let idx = this.indexOf(coors);
+    this.cells[idx] = !this.cells[idx];
+  }
+
   liveNeighborCount({row, column}) {
     let count = 0;
-    for (let delta_row of [self.height - 1, 0, 1]) {
-      for (let delta_col of [self.width - 1, 0, 1]) {
+    for (let delta_row of [this.height - 1, 0, 1]) {
+      for (let delta_col of [this.width - 1, 0, 1]) {
         if (delta_row === 0 && delta_col === 0) {
           continue;
         }
 
-        let neighbor_row = mod(row + delta_row, self.height);
-        let neighbor_col = mod(column + delta_col, self.width);
-        let idx = self.get_index({row: neighbor_row, column: neighbor_col});
-        count += self.cells[idx] ? 1 : 0;
+        let neighbor_row = mod(row + delta_row, this.height);
+        let neighbor_col = mod(column + delta_col, this.width);
+        let idx = this.indexOf({row: neighbor_row, column: neighbor_col});
+        count += this.cells[idx] ? 1 : 0;
       }
     }
     return count
