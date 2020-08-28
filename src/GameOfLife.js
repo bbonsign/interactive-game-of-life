@@ -56,18 +56,26 @@ export class GameOfLife {
   }
 
   tick() {
+    let next = [];
+
     for (let i = 0; i < this.size; i++) {
       let coors = this.coorsOf(i)
       let neighborCount = this.liveNeighborCount(coors);
 
       if (this.cells[i] && ![2, 3].includes(neighborCount)) {
         // a live cell w/out 2 or 3 neighbors dies
-        this.setCell(coors, false);
+        next.push(false);
+        // this.setCell(coors, false);
       }
       else if (!this.cells[i] && neighborCount === 3) {
         // a dead cell w/ 3 neighbors comes alive
-        this.setCell(coors, true);
+        // this.setCell(coors, true);
+        next.push(true);
+      }
+      else {
+        next.push(this.cells[i])
       }
     }
+    this.cells = next;
   }
 }
