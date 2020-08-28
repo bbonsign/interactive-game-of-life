@@ -1,7 +1,7 @@
 <template>
   <div class="universe" @click="clickHandle">
     <canvas id="canvas"></canvas>
-    <Controls :life="life"/>
+    <Controls :life="life" @toggleAnimation="animate" />
   </div>
 </template>
 
@@ -13,6 +13,8 @@ const CELL_SIZE = 10; // px
 const GRID_COLOR = "#AAAAAA";
 const DEAD_COLOR = "#DDDDDD";
 const ALIVE_COLOR = "#000000";
+
+var animation;
 
 export default {
   name: "Universe",
@@ -85,7 +87,23 @@ export default {
       }
 
       this.ctx.stroke();
-    }
+    },
+
+    animate(bool) {
+      if (!bool) {
+        animation = requestAnimationFrame(this.renderLoop);
+      } else {
+        cancelAnimationFrame(animation);
+      }
+    },
+
+    renderLoop() {
+      this.life.tick();
+      this.drawGrid();
+      this.drawCells();
+
+      animation = requestAnimationFrame(this.renderLoop);
+    },
   },
 
   mounted() {
