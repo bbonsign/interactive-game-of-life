@@ -1,11 +1,13 @@
 <template>
   <div class="universe" @click="clickHandle">
     <canvas id="canvas"></canvas>
+    <Controls :life="life"/>
   </div>
 </template>
 
 <script>
 import { GameOfLife } from "../GameOfLife";
+import Controls from "./Controls";
 
 const CELL_SIZE = 10; // px
 const GRID_COLOR = "#AAAAAA";
@@ -15,6 +17,9 @@ const ALIVE_COLOR = "#000000";
 export default {
   name: "Universe",
   props: {},
+  components: {
+    'Controls': Controls,
+  },
   data() {
     return {
       canvas: null,
