@@ -1,8 +1,7 @@
 <template>
   <div class="controls">
-    <button>Back</button>
     <button @click="toggleAnimation">{{ isAnimated ? "Pause" : "Play" }}</button>
-    <button @click="life.tick()">Forward</button>
+    <button @click="life.tick()">Step</button>
   </div>
 </template>
 

@@ -9,7 +9,7 @@
 import { GameOfLife } from "../GameOfLife";
 import Controls from "./Controls";
 
-const CELL_SIZE = 10; // px
+const CELL_SIZE = 20; // px
 const GRID_COLOR = "#AAAAAA";
 const DEAD_COLOR = "#DDDDDD";
 const ALIVE_COLOR = "#000000";
@@ -44,8 +44,6 @@ export default {
       this.life.toggleCell(coors, true);
       this.drawGrid();
       this.drawCells();
-      //      this.ctx.fillStyle = "black";
-      //      this.ctx.fillRect(event.clientX - 10, event.clientY - 10, 10, 10);
     },
 
     drawCells() {
@@ -119,8 +117,10 @@ export default {
     this.ctx = canvas.getContext("2d");
     this.ctx.fillStyle = DEAD_COLOR;
     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this.drawGrid();
 
     this.life = new GameOfLife(rows, cols);
+    this.drawCells();
   }
 };
 </script>
