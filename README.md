@@ -6,6 +6,9 @@ Turn cells on or off with a click/drag of the mouse, and see how life evolves.
 
 The interactivity is provided by a HTML canvas within a [Vue](https://vuejs.org/) app.
 
+Preview of basic functionality (still a work in progress):
+![gif of game of life](./game-of-life-preview.gif)
+
 ## Project setup
 ```
 npm install
