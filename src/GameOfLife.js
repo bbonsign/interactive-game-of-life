@@ -38,6 +38,10 @@ export class GameOfLife {
     this.cells[idx] = !this.cells[idx];
   }
 
+  clear() {
+    this.cells = this.cells.map(() => false);
+  }
+
   liveNeighborCount({row, column}) {
     let count = 0;
     for (let delta_row of [this.height - 1, 0, 1]) {

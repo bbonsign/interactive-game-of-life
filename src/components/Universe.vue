@@ -1,7 +1,7 @@
 <template>
   <div class="universe" @click="clickHandle">
     <canvas id="canvas"></canvas>
-    <Controls :life="life" @toggleAnimation="animate" />
+    <Controls :life="life" @toggleAnimation="animate" @updateUniverse="updateUniverse" />
   </div>
 </template>
 
@@ -20,13 +20,14 @@ export default {
   name: "Universe",
   props: {},
   components: {
-    'Controls': Controls,
+    Controls: Controls,
   },
+
   data() {
     return {
       canvas: null,
       ctx: null,
-      life: null
+      life: null,
     };
   },
 
@@ -87,6 +88,17 @@ export default {
       this.ctx.stroke();
     },
 
+    clearUniverse() {
+      this.ctx.fillStyle = DEAD_COLOR;
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+
+    updateUniverse() {
+      this.clearUniverse();
+      this.drawGrid();
+      this.drawCells();
+    },
+
     animate(bool) {
       if (!bool) {
         animation = requestAnimationFrame(this.renderLoop);
@@ -97,8 +109,7 @@ export default {
 
     renderLoop() {
       this.life.tick();
-      this.drawGrid();
-      this.drawCells();
+      this.updateUniverse();
 
       animation = requestAnimationFrame(this.renderLoop);
     },
@@ -115,13 +126,9 @@ export default {
     canvas.height = rows * (CELL_SIZE + 1) + 1;
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
-    this.ctx.fillStyle = DEAD_COLOR;
-    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-    this.drawGrid();
-
     this.life = new GameOfLife(rows, cols);
-    this.drawCells();
-  }
+    this.updateUniverse();
+  },
 };
 </script>
 
