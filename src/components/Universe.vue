@@ -1,6 +1,6 @@
 <template>
-  <div class="universe" @click="clickHandle">
-    <canvas id="canvas"></canvas>
+  <div class="universe">
+    <canvas id="canvas" @click="clickHandle"></canvas>
     <Controls :life="life" @toggleAnimation="animate" @updateUniverse="updateUniverse" />
   </div>
 </template>
