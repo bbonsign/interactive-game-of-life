@@ -1,7 +1,7 @@
 <template>
   <div class="universe">
     <canvas id="canvas" @click="clickHandle"></canvas>
-    <Controls :life="life" @toggleAnimation="animate" @updateUniverse="updateUniverse" />
+    <Controls :life="life" @toggleAnimation="animate" @drawUniverse="drawUniverse" />
   </div>
 </template>
 
@@ -93,7 +93,7 @@ export default {
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     },
 
-    updateUniverse() {
+    drawUniverse() {
       this.clearUniverse();
       this.drawGrid();
       this.drawCells();
@@ -109,7 +109,7 @@ export default {
 
     renderLoop() {
       this.life.tick();
-      this.updateUniverse();
+      this.drawUniverse();
 
       animation = requestAnimationFrame(this.renderLoop);
     },
@@ -127,7 +127,7 @@ export default {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.life = new GameOfLife(rows, cols);
-    this.updateUniverse();
+    this.drawUniverse();
   },
 };
 </script>

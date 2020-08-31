@@ -1,7 +1,7 @@
 <template>
   <div class="controls">
     <button @click="toggleAnimation">{{ isAnimated ? "Pause" : "Play" }}</button>
-    <button @click="life.tick()">Step</button>
+    <button @click="stepHandle">Step</button>
     <button @click="clear">Clear</button>
   </div>
 </template>
@@ -26,7 +26,11 @@ export default {
     clear() {
       if (this.isAnimated) this.toggleAnimation();
       this.life.clear();
-      this.$emit("updateUniverse");
+      this.$emit("drawUniverse");
+    },
+    stepHandle() {
+      this.life.tick();
+      this.$emit("drawUniverse");
     },
   },
 };
