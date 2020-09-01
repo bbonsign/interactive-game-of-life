@@ -53,6 +53,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 button {
+  cursor: pointer;
   border: none;
   margin: 0 10px;
   padding: 7px 6px;

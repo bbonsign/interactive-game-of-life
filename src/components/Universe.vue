@@ -1,6 +1,7 @@
 <template>
   <div class="universe">
     <canvas id="canvas" @click="clickHandle"></canvas>
+      id="game-of-life-canvas"
     <Controls :life="life" @toggleAnimation="animate" @drawUniverse="drawUniverse" />
   </div>
 </template>
@@ -14,7 +15,6 @@ const GRID_COLOR = "#AAAAAA";
 const DEAD_COLOR = "#DDDDDD";
 const ALIVE_COLOR = "#000000";
 
-var animation;
 
 export default {
   name: "Universe",
@@ -132,6 +132,14 @@ export default {
 };
 </script>
 
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.universe {
+  text-align: center;
+}
+
+#game-of-life-canvas {
+  cursor: crosshair;
+}
 </style>
