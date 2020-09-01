@@ -42,9 +42,11 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener('keydown', (event)=>{
-      if (event.code === 'Space') {event.preventDefault();
-        this.toggleAnimation() }
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        this.toggleAnimation();
+      }
     });
   },
 };

@@ -1,7 +1,11 @@
 <template>
   <div class="universe">
-    <canvas id="canvas" @click="clickHandle"></canvas>
+    <canvas
       id="game-of-life-canvas"
+      @mousedown="mouseDown"
+      @mousemove="mouseMove"
+      @mouseup="mouseUp"
+    ></canvas>
     <Controls :life="life" @toggleAnimation="animate" @drawUniverse="drawUniverse" />
   </div>
 </template>
@@ -15,6 +19,7 @@ const GRID_COLOR = "#AAAAAA";
 const DEAD_COLOR = "#DDDDDD";
 const ALIVE_COLOR = "#000000";
 
+let animation;
 
 export default {
   name: "Universe",
@@ -28,23 +33,46 @@ export default {
       canvas: null,
       ctx: null,
       life: null,
+      isDragging: false,
+      isMouseDown: false,
     };
   },
 
   methods: {
+    mouseDown() {
+      this.isDragging = false;
+      this.isMouseDown = true;
+    },
+
+    mouseMove(event) {
+      if (this.isMouseDown) {
+        this.isDragging = true;
+        this.mousehandle(event);
+      }
+    },
+
+    mouseUp(event) {
+      this.mousehandle(event);
+      this.isDragging = false;
+      this.isMouseDown = false;
+    },
+
+    mousehandle(event) {
+      let pixelX = event.offsetX;
+      let pixelY = event.offsetY;
+      let coors = this.pixToCell(pixelX, pixelY);
+      if (this.isDragging) {
+        this.life.setCell(coors, true);
+      } else {
+        this.life.toggleCell(coors);
+      }
+      this.drawUniverse();
+    },
+
     pixToCell(pixelX, pixelY) {
       let row = Math.floor(pixelX / (CELL_SIZE + 1));
       let column = Math.floor(pixelY / (CELL_SIZE + 1));
       return { row, column };
-    },
-
-    clickHandle(event) {
-      let pixelX = event.offsetX;
-      let pixelY = event.offsetY;
-      let coors = this.pixToCell(pixelX, pixelY);
-      this.life.toggleCell(coors, true);
-      this.drawGrid();
-      this.drawCells();
     },
 
     drawCells() {
@@ -116,11 +144,11 @@ export default {
   },
 
   mounted() {
-    const canvas = document.querySelector("#canvas");
+    const canvas = document.querySelector("#game-of-life-canvas");
     let windowWidth = window.innerWidth;
     let windowHeight = window.innerHeight;
-    let rows = Math.floor(windowHeight / CELL_SIZE) - 10;
-    let cols = Math.floor(windowWidth / CELL_SIZE) - 10;
+    let rows = Math.floor(windowHeight / CELL_SIZE) - 5;
+    let cols = Math.floor(windowWidth / CELL_SIZE) - 5;
 
     canvas.width = cols * (CELL_SIZE + 1) + 1;
     canvas.height = rows * (CELL_SIZE + 1) + 1;
