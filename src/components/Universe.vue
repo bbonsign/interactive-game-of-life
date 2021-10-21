@@ -5,6 +5,7 @@
       @mousedown="mouseDown"
       @mousemove="mouseMove"
       @mouseup="mouseUp"
+      @mouseleave="() => {isDragging = false; isMouseDown = false;}"
     ></canvas>
     <Controls :life="life" @toggleAnimation="animate" @drawUniverse="drawUniverse" />
   </div>
@@ -14,7 +15,6 @@
 import { GameOfLife } from "../GameOfLife";
 import Controls from "./Controls";
 
-const CELL_SIZE = 20; // px
 const GRID_COLOR = "#AAAAAA";
 const DEAD_COLOR = "#DDDDDD";
 const ALIVE_COLOR = "#000000";
@@ -33,6 +33,7 @@ export default {
       canvas: null,
       ctx: null,
       life: null,
+      cellSize: 20,
       isDragging: false,
       isMouseDown: false,
     };
@@ -70,8 +71,8 @@ export default {
     },
 
     pixToCell(pixelX, pixelY) {
-      let row = Math.floor(pixelX / (CELL_SIZE + 1));
-      let column = Math.floor(pixelY / (CELL_SIZE + 1));
+      let row = Math.floor(pixelX / (this.cellSize + 1));
+      let column = Math.floor(pixelY / (this.cellSize + 1));
       return { row, column };
     },
 
@@ -82,10 +83,10 @@ export default {
         this.ctx.fillStyle = this.life.cells[i] ? ALIVE_COLOR : DEAD_COLOR;
 
         this.ctx.fillRect(
-          row * (CELL_SIZE + 1) + 1,
-          column * (CELL_SIZE + 1) + 1,
-          CELL_SIZE,
-          CELL_SIZE
+          row * (this.cellSize + 1) + 1,
+          column * (this.cellSize + 1) + 1,
+          this.cellSize,
+          this.cellSize
         );
       }
     },
@@ -97,19 +98,19 @@ export default {
 
       // Vertical lines.
       for (let i = 0; i <= this.canvas.width; i++) {
-        this.ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
+        this.ctx.moveTo(i * (this.cellSize + 1) + 1, 0);
         this.ctx.lineTo(
-          i * (CELL_SIZE + 1) + 1,
-          (CELL_SIZE + 1) * this.canvas.height + 1
+          i * (this.cellSize + 1) + 1,
+          (this.cellSize + 1) * this.canvas.height + 1
         );
       }
 
       // Horizontal lines.
       for (let j = 0; j <= this.canvas.height; j++) {
-        this.ctx.moveTo(0, j * (CELL_SIZE + 1) + 1);
+        this.ctx.moveTo(0, j * (this.cellSize + 1) + 1);
         this.ctx.lineTo(
-          (CELL_SIZE + 1) * this.canvas.width + 1,
-          j * (CELL_SIZE + 1) + 1
+          (this.cellSize + 1) * this.canvas.width + 1,
+          j * (this.cellSize + 1) + 1
         );
       }
 
@@ -147,11 +148,11 @@ export default {
     const canvas = document.querySelector("#game-of-life-canvas");
     let windowWidth = window.innerWidth;
     let windowHeight = window.innerHeight;
-    let rows = Math.floor(windowHeight / CELL_SIZE) - 5;
-    let cols = Math.floor(windowWidth / CELL_SIZE) - 5;
+    let rows = Math.floor(windowHeight / this.cellSize) - 5;
+    let cols = Math.floor(windowWidth / this.cellSize) - 5;
 
-    canvas.width = cols * (CELL_SIZE + 1) + 1;
-    canvas.height = rows * (CELL_SIZE + 1) + 1;
+    canvas.width = cols * (this.cellSize + 1) + 1;
+    canvas.height = rows * (this.cellSize + 1) + 1;
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.life = new GameOfLife(rows, cols);
